@@ -6281,8 +6281,8 @@ libsystemd_journal_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-journal.sym
 
 libsystemd_journal_la_LIBADD = \
-	libsystemd-journal-internal.la \
-	libsystemd-internal.la
+	$(libsystemd_internal_la_LIBADD) \
+	$(libsystemd_journal_internal_la_LIBADD)
 
 nodist_libsystemd_login_la_SOURCES = \
 	libsystemd-login.c
@@ -6300,7 +6300,7 @@ libsystemd_login_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-login.sym
 
 libsystemd_login_la_LIBADD = \
-	libsystemd-internal.la
+	 $(libsystemd_internal_la_LIBADD)
 
 nodist_libsystemd_id128_la_SOURCES = \
 	libsystemd-id128.c
@@ -6318,7 +6318,7 @@ libsystemd_id128_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-id128.sym
 
 libsystemd_id128_la_LIBADD = \
-	libsystemd-internal.la
+	 $(libsystemd_internal_la_LIBADD)
 
 nodist_libsystemd_daemon_la_SOURCES = \
 	libsystemd-daemon.c
@@ -6336,7 +6336,7 @@ libsystemd_daemon_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-daemon.sym
 
 libsystemd_daemon_la_LIBADD = \
-	libsystemd-internal.la
+	 $(libsystemd_internal_la_LIBADD)
 
 lib_LTLIBRARIES += \
 	libsystemd-journal.la \
