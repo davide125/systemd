@@ -41,6 +41,7 @@
 /image.raw
 /install-tree
 /journalctl
+/libsystemd-*.c
 /libtool
 /linuxx64.efi.stub
 /localectl
