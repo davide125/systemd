@@ -6281,8 +6281,9 @@ libsystemd_journal_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-journal.sym
 
 libsystemd_journal_la_LIBADD = \
-	$(libsystemd_internal_la_LIBADD) \
-	$(libsystemd_journal_internal_la_LIBADD)
+	libsystemd-journal-internal.la \
+	libsystemd-internal.la \
+	libbasic.la
 
 nodist_libsystemd_login_la_SOURCES = \
 	libsystemd-login.c
@@ -6300,7 +6301,8 @@ libsystemd_login_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-login.sym
 
 libsystemd_login_la_LIBADD = \
-	 $(libsystemd_internal_la_LIBADD)
+	 libsystemd-internal.la \
+	 libbasic.la
 
 nodist_libsystemd_id128_la_SOURCES = \
 	libsystemd-id128.c
@@ -6318,7 +6320,8 @@ libsystemd_id128_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-id128.sym
 
 libsystemd_id128_la_LIBADD = \
-	 $(libsystemd_internal_la_LIBADD)
+	 libsystemd-internal.la \
+	 libbasic.la
 
 nodist_libsystemd_daemon_la_SOURCES = \
 	libsystemd-daemon.c
@@ -6336,9 +6339,10 @@ libsystemd_daemon_la_LDFLAGS = \
 	-Wl,--version-script=$(top_srcdir)/src/compat-libs/libsystemd-daemon.sym
 
 libsystemd_daemon_la_LIBADD = \
-	 $(libsystemd_internal_la_LIBADD)
+	 libsystemd-internal.la \
+	 libbasic.la
 
-lib_LTLIBRARIES += \
+rootlib_LTLIBRARIES += \
 	libsystemd-journal.la \
 	libsystemd-login.la \
 	libsystemd-id128.la \
@@ -6349,22 +6353,6 @@ pkgconfiglib_DATA += \
 	src/compat-libs/libsystemd-login.pc \
 	src/compat-libs/libsystemd-id128.pc \
 	src/compat-libs/libsystemd-daemon.pc
-
-# move lib from $(libdir) to $(rootlibdir) and update devel link, if needed
-compat-lib-install-hook:
-	libname=libsystemd-login.so && $(move-to-rootlibdir)
-	libname=libsystemd-journal.so && $(move-to-rootlibdir)
-	libname=libsystemd-id128.so && $(move-to-rootlibdir)
-	libname=libsystemd-daemon.so && $(move-to-rootlibdir)
-
-compat-lib-uninstall-hook:
-	rm -f $(DESTDIR)$(rootlibdir)/libsystemd-login.so*
-	rm -f $(DESTDIR)$(rootlibdir)/libsystemd-journal.so*
-	rm -f $(DESTDIR)$(rootlibdir)/libsystemd-id128.so*
-	rm -f $(DESTDIR)$(rootlibdir)/libsystemd-daemon.so*
-
-INSTALL_EXEC_HOOKS += compat-lib-install-hook
-UNINSTALL_EXEC_HOOKS += compat-lib-uninstall-hook
 endif
 
 EXTRA_DIST += \
