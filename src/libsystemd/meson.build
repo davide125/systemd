@@ -82,15 +82,36 @@ libsystemd_sources = files('''
         sd-utf8/sd-utf8.c
 '''.split()) + id128_sources + sd_daemon_c + sd_event_c + sd_login_c
 
+libsystemd_c_args = ['-fvisibility=default']
+
 libsystemd_static = static_library(
-        'systemd',
+        'systemd_static',
         libsystemd_sources,
         install : false,
         include_directories : includes,
         link_with : libbasic,
         dependencies : [threads,
                         librt],
-        c_args : ['-fvisibility=default'])
+        c_args : libsystemd_c_args)
+
+static_libsystemd = get_option('static-libsystemd')
+if static_libsystemd == 'true' or static_libsystemd == 'pic'
+  static_libsystemd_c_args = libsystemd_c_args
+else
+  static_libsystemd_c_args = libsystemd_c_args + ['-fno-PIC']
+endif
+install_libsystemd_static = static_library(
+        'systemd',
+        libsystemd_sources,
+        include_directories : includes,
+        link_with : libbasic,
+        build_by_default : static_libsystemd != 'false',
+        install : static_libsystemd != 'false',
+        install_dir : rootlibdir,
+        pic : static_libsystemd == 'true' or static_libsystemd == 'pic',
+        dependencies : [threads,
+                        librt],
+        c_args : static_libsystemd_c_args)
 
 libsystemd_sym = 'src/libsystemd/libsystemd.sym'
 
